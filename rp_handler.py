@@ -17,9 +17,10 @@ AWS_ACCESS_KEY = os.environ.get("AWS_ACCESS_KEY_ID")
 AWS_SECRET_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
 BUCKET_NAME = os.environ.get("BUCKET_NAME")
 ENDPOINT_URL = os.environ.get("ENDPOINT_URL") # e.g. https://<account>.r2.cloudflarestorage.com
+PUBLIC_BASE_URL = os.environ.get("PUBLIC_BASE_URL", "https://pub-7d6e5b999fdf478c9d8bb0283bf1bf0e.r2.dev")
 
 def upload_to_s3(file_path, object_name):
-    """Uploads the generated video to S3/R2 and returns the URL"""
+    """Uploads to R2 and returns the PUBLIC playable URL"""
     s3 = boto3.client(
         's3',
         aws_access_key_id=AWS_ACCESS_KEY,
@@ -28,15 +29,19 @@ def upload_to_s3(file_path, object_name):
     )
     try:
         s3.upload_file(file_path, BUCKET_NAME, object_name)
-        # Construct public URL (Adjust based on your storage provider)
-        # For R2/S3 usually: https://bucket.endpoint/object
-        # You might need a public custom domain here if your bucket isn't public
-        url = f"{ENDPOINT_URL}/{BUCKET_NAME}/{object_name}"
-        return url.replace(f"{BUCKET_NAME}/", "") if "r2" in ENDPOINT_URL else url 
+        
+        # RETURN THE PUBLIC URL
+        return f"{PUBLIC_BASE_URL}/{object_name}"
+        
     except FileNotFoundError:
+        print(f"File not found: {file_path}")
         return None
     except NoCredentialsError:
-        return "Credentials not available"
+        print("Credentials not available")
+        return None
+    except Exception as e:
+        print(f"Upload failed: {str(e)}")
+        return None
 
 def check_server(url):
     """Waits for ComfyUI to start up"""
