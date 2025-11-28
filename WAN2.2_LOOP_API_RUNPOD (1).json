@@ -1,0 +1,1274 @@
+{
+  "82": {
+    "inputs": {
+      "Xi": 12,
+      "Xf": 12,
+      "isfloatX": 0
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Steps"
+    }
+  },
+  "85": {
+    "inputs": {
+      "Xi": 1,
+      "Xf": 1,
+      "isfloatX": 1
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "CFG"
+    }
+  },
+  "157": {
+    "inputs": {
+      "Xi": 5,
+      "Xf": 5,
+      "isfloatX": 1
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Speed"
+    }
+  },
+  "409": {
+    "inputs": {
+      "value": "blurry face, fast movements, blurry, moving camera, shaking camera, closed eyes, blinking eyes, shifting lighting, changing colors"
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "Negative"
+    }
+  },
+  "421": {
+    "inputs": {
+      "Xi": 1,
+      "Xf": 1.2,
+      "isfloatX": 1
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Upscale ratio"
+    }
+  },
+  "425": {
+    "inputs": {
+      "a": [
+        "426",
+        0
+      ],
+      "b": [
+        "490",
+        0
+      ],
+      "operation": "multiply"
+    },
+    "class_type": "easy mathFloat",
+    "_meta": {
+      "title": "calculFrames"
+    }
+  },
+  "426": {
+    "inputs": {
+      "Xi": 4,
+      "Xf": 4,
+      "isfloatX": 1
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Duration"
+    }
+  },
+  "428": {
+    "inputs": {
+      "output_type": "int",
+      "*": [
+        "425",
+        0
+      ]
+    },
+    "class_type": "easy convertAnything",
+    "_meta": {
+      "title": "toInt"
+    }
+  },
+  "446": {
+    "inputs": {
+      "a": [
+        "428",
+        0
+      ],
+      "b": 1,
+      "operation": "add"
+    },
+    "class_type": "easy mathInt",
+    "_meta": {
+      "title": "addFirst frame"
+    }
+  },
+  "451": {
+    "inputs": {
+      "string_a": [
+        "478",
+        0
+      ],
+      "string_b": "",
+      "delimiter": ""
+    },
+    "class_type": "StringConcatenate",
+    "_meta": {
+      "title": "Concatenate"
+    }
+  },
+  "460": {
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "CLIP"
+    }
+  },
+  "461": {
+    "inputs": {
+      "vae_name": "wan_2.1_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "VAE"
+    }
+  },
+  "462": {
+    "inputs": {
+      "text": [
+        "451",
+        0
+      ],
+      "clip": [
+        "460",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Positive Encode"
+    }
+  },
+  "463": {
+    "inputs": {
+      "text": [
+        "409",
+        0
+      ],
+      "clip": [
+        "460",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Negative Encode"
+    }
+  },
+  "465": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": [
+        "552",
+        0
+      ],
+      "steps": [
+        "82",
+        0
+      ],
+      "cfg": [
+        "85",
+        0
+      ],
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "start_at_step": [
+        "504",
+        0
+      ],
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "501",
+        0
+      ],
+      "positive": [
+        "520",
+        0
+      ],
+      "negative": [
+        "520",
+        1
+      ],
+      "latent_image": [
+        "567",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "Sampler low"
+    }
+  },
+  "466": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": [
+        "552",
+        0
+      ],
+      "steps": [
+        "82",
+        0
+      ],
+      "cfg": [
+        "85",
+        0
+      ],
+      "sampler_name": "euler",
+      "scheduler": "normal",
+      "start_at_step": 0,
+      "end_at_step": [
+        "504",
+        0
+      ],
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "500",
+        0
+      ],
+      "positive": [
+        "520",
+        0
+      ],
+      "negative": [
+        "520",
+        1
+      ],
+      "latent_image": [
+        "520",
+        2
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "Sampler high"
+    }
+  },
+  "467": {
+    "inputs": {
+      "shift": [
+        "157",
+        0
+      ],
+      "model": [
+        "483",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "SamplingHigh"
+    }
+  },
+  "468": {
+    "inputs": {
+      "shift": [
+        "157",
+        0
+      ],
+      "model": [
+        "484",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "SamplinfLow"
+    }
+  },
+  "469": {
+    "inputs": {
+      "samples": [
+        "465",
+        0
+      ],
+      "vae": [
+        "461",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode"
+    }
+  },
+  "472": {
+    "inputs": {
+      "find": "illustration",
+      "replace": "video",
+      "text": [
+        "476",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Find and Replace"
+    }
+  },
+  "473": {
+    "inputs": {
+      "model": "MiaoshouAI/Florence-2-base-PromptGen-v2.0",
+      "precision": "fp16",
+      "attention": "sdpa",
+      "convert_to_safetensors": false
+    },
+    "class_type": "DownloadAndLoadFlorence2Model",
+    "_meta": {
+      "title": "Florence Model"
+    }
+  },
+  "474": {
+    "inputs": {
+      "find": "photo",
+      "replace": "video",
+      "text": [
+        "480",
+        2
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Find and Replace"
+    }
+  },
+  "475": {
+    "inputs": {
+      "find": "image",
+      "replace": "video",
+      "text": [
+        "474",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Find and Replace"
+    }
+  },
+  "476": {
+    "inputs": {
+      "find": "painting",
+      "replace": "video",
+      "text": [
+        "475",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Find and Replace"
+    }
+  },
+  "477": {
+    "inputs": {
+      "find": "drawing",
+      "replace": "video",
+      "text": [
+        "472",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Find and Replace"
+    }
+  },
+  "478": {
+    "inputs": {
+      "find": "portrait",
+      "replace": "video",
+      "text": [
+        "477",
+        0
+      ]
+    },
+    "class_type": "Text Find and Replace",
+    "_meta": {
+      "title": "Find and Replace"
+    }
+  },
+  "479": {
+    "inputs": {
+      "text": "A digital video of a young woman with short black hair, sitting on a stone wall, facing the sea during sunset. She is wearing a white t-shirt and black pants, and has headphones on. The sky is a beautiful mix of pink and orange hues, with a few clouds scattered across the horizon. The sea is calm and turbulent, with large waves crashing onto the shore. The woman has a peaceful expression, and the overall mood is serene and contemplative.",
+      "anything": [
+        "451",
+        0
+      ]
+    },
+    "class_type": "easy showAnything",
+    "_meta": {
+      "title": "Final prompt preview"
+    }
+  },
+  "480": {
+    "inputs": {
+      "text_input": "",
+      "task": "detailed_caption",
+      "fill_mask": true,
+      "keep_model_loaded": false,
+      "max_new_tokens": 1024,
+      "num_beams": 3,
+      "do_sample": true,
+      "output_mask_select": "",
+      "seed": 777777777777777,
+      "image": [
+        "518",
+        0
+      ],
+      "florence2_model": [
+        "473",
+        0
+      ]
+    },
+    "class_type": "Florence2Run",
+    "_meta": {
+      "title": "Florence2Run"
+    }
+  },
+  "481": {
+    "inputs": {
+      "weight": 1.0000000000000002,
+      "model": [
+        "521",
+        0
+      ],
+      "latent": [
+        "520",
+        2
+      ]
+    },
+    "class_type": "WanVideoEnhanceAVideoKJ",
+    "_meta": {
+      "title": "Enhance High"
+    }
+  },
+  "482": {
+    "inputs": {
+      "weight": 1.0000000000000002,
+      "model": [
+        "522",
+        0
+      ],
+      "latent": [
+        "520",
+        2
+      ]
+    },
+    "class_type": "WanVideoEnhanceAVideoKJ",
+    "_meta": {
+      "title": "Enhance Low"
+    }
+  },
+  "483": {
+    "inputs": {
+      "use_zero_init": false,
+      "zero_init_steps": 2,
+      "model": [
+        "481",
+        0
+      ]
+    },
+    "class_type": "CFGZeroStarAndInit",
+    "_meta": {
+      "title": "CFG Zero High"
+    }
+  },
+  "484": {
+    "inputs": {
+      "use_zero_init": false,
+      "zero_init_steps": 2,
+      "model": [
+        "482",
+        0
+      ]
+    },
+    "class_type": "CFGZeroStarAndInit",
+    "_meta": {
+      "title": "CFG Zero Low"
+    }
+  },
+  "485": {
+    "inputs": {
+      "nag_scale": 11,
+      "nag_alpha": 0.25,
+      "nag_tau": 2.3730000000000007,
+      "input_type": "default",
+      "model": [
+        "467",
+        0
+      ],
+      "conditioning": [
+        "463",
+        0
+      ]
+    },
+    "class_type": "WanVideoNAG",
+    "_meta": {
+      "title": "NAG High"
+    }
+  },
+  "486": {
+    "inputs": {
+      "nag_scale": 11,
+      "nag_alpha": 0.25,
+      "nag_tau": 2.3730000000000007,
+      "input_type": "default",
+      "model": [
+        "468",
+        0
+      ],
+      "conditioning": [
+        "463",
+        0
+      ]
+    },
+    "class_type": "WanVideoNAG",
+    "_meta": {
+      "title": "NAG Low"
+    }
+  },
+  "490": {
+    "inputs": {
+      "Xi": 16,
+      "Xf": 16,
+      "isfloatX": 1
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Frame rate"
+    }
+  },
+  "500": {
+    "inputs": {
+      "blocks_to_swap": [
+        "503",
+        0
+      ],
+      "offload_img_emb": false,
+      "offload_txt_emb": false,
+      "use_non_blocking": false,
+      "model": [
+        "485",
+        0
+      ]
+    },
+    "class_type": "wanBlockSwap",
+    "_meta": {
+      "title": "BlockSwap High"
+    }
+  },
+  "501": {
+    "inputs": {
+      "blocks_to_swap": [
+        "503",
+        0
+      ],
+      "offload_img_emb": false,
+      "offload_txt_emb": false,
+      "use_non_blocking": false,
+      "model": [
+        "486",
+        0
+      ]
+    },
+    "class_type": "wanBlockSwap",
+    "_meta": {
+      "title": "BlockSwap Low"
+    }
+  },
+  "502": {
+    "inputs": {
+      "Xi": 0,
+      "Xf": 0,
+      "isfloatX": 0
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Reduce VRAM usage (BlockSwap)"
+    }
+  },
+  "503": {
+    "inputs": {
+      "expression": "a/100*40",
+      "a": [
+        "502",
+        0
+      ]
+    },
+    "class_type": "MathExpression|pysssss",
+    "_meta": {
+      "title": "blockcalcul"
+    }
+  },
+  "504": {
+    "inputs": {
+      "a": [
+        "82",
+        0
+      ],
+      "b": 2,
+      "operation": "divide"
+    },
+    "class_type": "easy mathInt",
+    "_meta": {
+      "title": "calculSteps"
+    }
+  },
+  "515": {
+    "inputs": {
+      "a": [
+        "490",
+        0
+      ],
+      "b": [
+        "573",
+        0
+      ],
+      "operation": "multiply"
+    },
+    "class_type": "easy mathFloat",
+    "_meta": {
+      "title": "calculFramesIn"
+    }
+  },
+  "518": {
+    "inputs": {
+      "width": 0,
+      "height": [
+        "556",
+        0
+      ],
+      "interpolation": "lanczos",
+      "method": "keep proportion",
+      "condition": "always",
+      "multiple_of": 32,
+      "image": [
+        "576",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "Resize First"
+    }
+  },
+  "519": {
+    "inputs": {
+      "width": 0,
+      "height": [
+        "556",
+        0
+      ],
+      "interpolation": "lanczos",
+      "method": "keep proportion",
+      "condition": "always",
+      "multiple_of": 32,
+      "image": [
+        "576",
+        0
+      ]
+    },
+    "class_type": "ImageResize+",
+    "_meta": {
+      "title": "Resize Last"
+    }
+  },
+  "520": {
+    "inputs": {
+      "width": [
+        "518",
+        1
+      ],
+      "height": [
+        "518",
+        2
+      ],
+      "length": [
+        "446",
+        0
+      ],
+      "batch_size": 1,
+      "positive": [
+        "462",
+        0
+      ],
+      "negative": [
+        "463",
+        0
+      ],
+      "vae": [
+        "461",
+        0
+      ],
+      "start_image": [
+        "518",
+        0
+      ],
+      "end_image": [
+        "519",
+        0
+      ]
+    },
+    "class_type": "WanFirstLastFrameToVideo",
+    "_meta": {
+      "title": "FirstLastFrame"
+    }
+  },
+  "521": {
+    "inputs": {
+      "unet_name": "smoothMixWan22I2VT2V_i2vHigh.safetensors",
+      "weight_dtype": "fp8_e4m3fn_fast"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Model - High noise"
+    }
+  },
+  "522": {
+    "inputs": {
+      "unet_name": "smoothMixWan22I2VT2V_i2vLow.safetensors",
+      "weight_dtype": "fp8_e4m3fn_fast"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Model - Low noise"
+    }
+  },
+  "526": {
+    "inputs": {
+      "expression": "a-1",
+      "a": [
+        "537",
+        0
+      ]
+    },
+    "class_type": "MathExpression|pysssss",
+    "_meta": {
+      "title": "Math Expression 🐍"
+    }
+  },
+  "527": {
+    "inputs": {
+      "ckpt_name": "rife47.pth",
+      "clear_cache_after_n_frames": 10,
+      "multiplier": [
+        "538",
+        0
+      ],
+      "fast_mode": true,
+      "ensemble": true,
+      "scale_factor": 1,
+      "frames": [
+        "529",
+        0
+      ]
+    },
+    "class_type": "RIFE VFI",
+    "_meta": {
+      "title": "RIFE VFI (recommend rife47 and rife49)"
+    }
+  },
+  "528": {
+    "inputs": {
+      "start": 1,
+      "length": [
+        "531",
+        0
+      ],
+      "image": [
+        "527",
+        0
+      ]
+    },
+    "class_type": "ImageFromBatch+",
+    "_meta": {
+      "title": "🔧 Image From Batch"
+    }
+  },
+  "529": {
+    "inputs": {
+      "any_1": [
+        "535",
+        0
+      ],
+      "any_2": [
+        "530",
+        0
+      ]
+    },
+    "class_type": "easy batchAnything",
+    "_meta": {
+      "title": "Batch Any"
+    }
+  },
+  "530": {
+    "inputs": {
+      "index": 0,
+      "images": [
+        "536",
+        0
+      ]
+    },
+    "class_type": "JWImageExtractFromBatch",
+    "_meta": {
+      "title": "Image Extract From Batch"
+    }
+  },
+  "531": {
+    "inputs": {
+      "expression": "a-1",
+      "a": [
+        "538",
+        0
+      ]
+    },
+    "class_type": "MathExpression|pysssss",
+    "_meta": {
+      "title": "Math Expression 🐍"
+    }
+  },
+  "532": {
+    "inputs": {
+      "images": [
+        "575",
+        0
+      ]
+    },
+    "class_type": "VHS_GetImageCount",
+    "_meta": {
+      "title": "Get Image Count 🎥🅥🅗🅢"
+    }
+  },
+  "533": {
+    "inputs": {
+      "any_1": [
+        "536",
+        0
+      ],
+      "any_2": [
+        "528",
+        0
+      ]
+    },
+    "class_type": "easy batchAnything",
+    "_meta": {
+      "title": "Batch Any"
+    }
+  },
+  "534": {
+    "inputs": {
+      "any_1": [
+        "533",
+        0
+      ],
+      "any_2": [
+        "530",
+        0
+      ]
+    },
+    "class_type": "easy batchAnything",
+    "_meta": {
+      "title": "Batch Any"
+    }
+  },
+  "535": {
+    "inputs": {
+      "start": [
+        "526",
+        0
+      ],
+      "length": -1,
+      "image": [
+        "536",
+        0
+      ]
+    },
+    "class_type": "ImageFromBatch+",
+    "_meta": {
+      "title": "🔧 Image From Batch"
+    }
+  },
+  "536": {
+    "inputs": {
+      "start_index": [
+        "540",
+        0
+      ],
+      "num_frames": [
+        "537",
+        0
+      ],
+      "images": [
+        "575",
+        0
+      ]
+    },
+    "class_type": "GetImageRangeFromBatch",
+    "_meta": {
+      "title": "Get Image or Mask Range From Batch"
+    }
+  },
+  "537": {
+    "inputs": {
+      "expression": "a-b-c",
+      "a": [
+        "532",
+        0
+      ],
+      "b": [
+        "540",
+        0
+      ],
+      "c": [
+        "539",
+        0
+      ]
+    },
+    "class_type": "MathExpression|pysssss",
+    "_meta": {
+      "title": "Math Expression 🐍"
+    }
+  },
+  "538": {
+    "inputs": {
+      "Xi": 3,
+      "Xf": 3,
+      "isfloatX": 0
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Interpolation"
+    }
+  },
+  "539": {
+    "inputs": {
+      "Xi": 5,
+      "Xf": 5,
+      "isfloatX": 0
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "End frame"
+    }
+  },
+  "540": {
+    "inputs": {
+      "Xi": 2,
+      "Xf": 2,
+      "isfloatX": 0
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Start frame"
+    }
+  },
+  "542": {
+    "inputs": {
+      "anything": [
+        "534",
+        0
+      ]
+    },
+    "class_type": "easy cleanGpuUsed",
+    "_meta": {
+      "title": "Clean VRAM"
+    }
+  },
+  "544": {
+    "inputs": {
+      "model": "gimmvfi_f_arb_lpips_fp32.safetensors",
+      "precision": "fp16",
+      "torch_compile": false
+    },
+    "class_type": "DownloadAndLoadGIMMVFIModel",
+    "_meta": {
+      "title": "(Down)Load GIMMVFI Model"
+    }
+  },
+  "546": {
+    "inputs": {
+      "ds_factor": 1,
+      "interpolation_factor": [
+        "571",
+        0
+      ],
+      "seed": 533662968663336,
+      "output_flows": false,
+      "gimmvfi_model": [
+        "544",
+        0
+      ],
+      "images": [
+        "542",
+        0
+      ]
+    },
+    "class_type": "GIMMVFI_interpolate",
+    "_meta": {
+      "title": "GIMM-VFI Interpolate"
+    }
+  },
+  "547": {
+    "inputs": {
+      "expression": "a/4",
+      "a": [
+        "421",
+        0
+      ]
+    },
+    "class_type": "MathExpression|pysssss",
+    "_meta": {
+      "title": "Calcul ratio"
+    }
+  },
+  "548": {
+    "inputs": {
+      "anything": [
+        "570",
+        0
+      ]
+    },
+    "class_type": "easy cleanGpuUsed",
+    "_meta": {
+      "title": "Clean VRAM Used"
+    }
+  },
+  "549": {
+    "inputs": {
+      "resize_to": "none",
+      "images": [
+        "548",
+        0
+      ],
+      "upscaler_trt_model": [
+        "553",
+        0
+      ]
+    },
+    "class_type": "UpscalerTensorrt",
+    "_meta": {
+      "title": "Upscaler Tensorrt"
+    }
+  },
+  "550": {
+    "inputs": {
+      "upscale_method": "nearest-exact",
+      "scale_by": [
+        "547",
+        1
+      ],
+      "image": [
+        "549",
+        0
+      ]
+    },
+    "class_type": "ImageScaleBy",
+    "_meta": {
+      "title": "Upscale Image By"
+    }
+  },
+  "551": {
+    "inputs": {
+      "frame_rate": [
+        "515",
+        0
+      ],
+      "loop_count": 0,
+      "filename_prefix": "WAN/2025-11-28/014613_UP",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "550",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Save Upscaled"
+    }
+  },
+  "552": {
+    "inputs": {
+      "seed": -1
+    },
+    "class_type": "Seed (rgthree)",
+    "_meta": {
+      "title": "Seed (Randomizer)"
+    }
+  },
+  "553": {
+    "inputs": {
+      "model": "4x_foolhardy_Remacri",
+      "precision": "fp16"
+    },
+    "class_type": "LoadUpscalerTensorrtModel",
+    "_meta": {
+      "title": "Load Upscale Tensorrt Model"
+    }
+  },
+  "556": {
+    "inputs": {
+      "Xi": 512,
+      "Xf": 512,
+      "isfloatX": 0
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Height"
+    }
+  },
+  "567": {
+    "inputs": {
+      "anything": [
+        "466",
+        0
+      ]
+    },
+    "class_type": "easy cleanGpuUsed",
+    "_meta": {
+      "title": "Clean VRAM"
+    }
+  },
+  "568": {
+    "inputs": {
+      "images": [
+        "546",
+        0
+      ]
+    },
+    "class_type": "VHS_GetImageCount",
+    "_meta": {
+      "title": "Get Image Count 🎥🅥🅗🅢"
+    }
+  },
+  "569": {
+    "inputs": {
+      "expression": "a-1",
+      "a": [
+        "568",
+        0
+      ]
+    },
+    "class_type": "MathExpression|pysssss",
+    "_meta": {
+      "title": "Math Expression 🐍"
+    }
+  },
+  "570": {
+    "inputs": {
+      "start_index": 0,
+      "num_frames": [
+        "569",
+        0
+      ],
+      "images": [
+        "546",
+        0
+      ]
+    },
+    "class_type": "GetImageRangeFromBatch",
+    "_meta": {
+      "title": "Get Image or Mask Range From Batch"
+    }
+  },
+  "571": {
+    "inputs": {
+      "Xi": 2,
+      "Xf": 2,
+      "isfloatX": 0
+    },
+    "class_type": "mxSlider",
+    "_meta": {
+      "title": "Interpolation"
+    }
+  },
+  "573": {
+    "inputs": {
+      "output_type": "float",
+      "*": [
+        "571",
+        0
+      ]
+    },
+    "class_type": "easy convertAnything",
+    "_meta": {
+      "title": "Convert Any"
+    }
+  },
+  "575": {
+    "inputs": {
+      "method": "mkl",
+      "image_output": "Hide",
+      "save_prefix": "ComfyUI",
+      "image_ref": [
+        "518",
+        0
+      ],
+      "image_target": [
+        "469",
+        0
+      ]
+    },
+    "class_type": "easy imageColorMatch",
+    "_meta": {
+      "title": "Image Color Match"
+    }
+  },
+  "576": {
+    "inputs": {
+      "base64_data": "",
+      "image_output": "Hide",
+      "save_prefix": "ComfyUI"
+    },
+    "class_type": "easy loadImageBase64",
+    "_meta": {
+      "title": "Load Image (Base64)"
+    }
+  },
+  "577": {
+    "inputs": {
+      "frame_rate": [
+        "515",
+        0
+      ],
+      "loop_count": 0,
+      "filename_prefix": "WAN/2025-11-28/014613_UP",
+      "format": "image/gif",
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "550",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Save Upscaled"
+    }
+  }
+}
