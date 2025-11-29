@@ -7,7 +7,8 @@ RUN comfy node install --exit-on-fail comfyui_essentials
 RUN comfy node install --exit-on-fail comfyui-gimm-vfi
 RUN comfy node install --exit-on-fail ComfyUI-mxToolkit
 RUN comfy node install --exit-on-fail ComfyUI_TensorRT
-RUN git clone https://github.com/orssorbit/ComfyUI-wanBlockswap custom_nodes/ComfyUI-wanBlockswapRUN comfy node install --exit-on-fail was-node-suite-comfyui
+RUN git clone https://github.com/orssorbit/ComfyUI-wanBlockswap custom_nodes/ComfyUI-wanBlockswap
+RUN comfy node install --exit-on-fail was-node-suite-comfyui
 RUN comfy node install --exit-on-fail ComfyUI-KJNodes
 RUN comfy node install --exit-on-fail ComfyUI-Easy-Use
 RUN comfy node install --exit-on-fail rgthree-comfy
