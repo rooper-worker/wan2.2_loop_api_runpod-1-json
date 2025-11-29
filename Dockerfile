@@ -19,7 +19,12 @@ RUN comfy node install --exit-on-fail comfyui-videohelpersuite
 # download models into comfyui
 RUN comfy model download --url https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors --relative-path models/clip --filename umt5_xxl_fp8_e4m3fn_scaled.safetensors
 RUN comfy model download --url https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors --relative-path models/vae --filename wan_2.1_vae.safetensors
-RUN wget -O models/unet/smoothMixWan22I2VT2V_i2vHigh.safetensors "https://civitai.com/api/download/models/2260110?token=fe236ecdc4737a4ab46bdbf26228fb14"
-RUN wget -O models/unet/smoothMixWan22I2VT2V_i2vLow.safetensors "https://civitai.com/api/download/models/2259006?token=fe236ecdc4737a4ab46bdbf26228fb14"
+RUN curl -L --retry 5 --retry-delay 5 -A "Mozilla/5.0" \
+  "https://civitai.com/api/download/models/2260110?token=fe236ecdc4737a4ab46bdbf26228fb14" \
+  -o models/unet/smoothMixWan22I2VT2V_i2vHigh.safetensors
+
+RUN curl -L --retry 5 --retry-delay 5 -A "Mozilla/5.0" \
+  "https://civitai.com/api/download/models/2259006?token=fe236ecdc4737a4ab46bdbf26228fb14" \
+  -o models/unet/smoothMixWan22I2VT2V_i2vLow.safetensors
 RUN comfy model download --url https://huggingface.co/Kijai/GIMM-VFI_safetensors/resolve/f06ecc593e175188d71d8c31c86bce83696430e5/gimmvfi_f_arb_lpips_fp32.safetensors --relative-path models/interpolation/gimm-vfi --filename gimmvfi_f_arb_lpips_fp32.safetensors
 RUN comfy model download --url https://huggingface.co/jasonot/mycomfyui/resolve/main/rife47.pth --relative-path custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife --filename rife47.pth
