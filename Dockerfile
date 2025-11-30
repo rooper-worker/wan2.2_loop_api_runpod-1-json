@@ -2,10 +2,16 @@ FROM runpod/worker-comfyui:5.5.0-base
 
 USER root
 
+# 1. Install System Dependencies
 RUN apt-get update || true && \
     apt-get install -y --no-install-recommends curl git aria2 libgl1 libglib2.0-0 && \
     rm -rf /var/lib/apt/lists/*
 
+# --- FIX: Install Python Dependencies (CRITICAL) ---
+RUN pip install --no-cache-dir boto3 requests
+# ---------------------------------------------------
+
+# 2. Install Custom Nodes
 RUN comfy node install --exit-on-fail comfyui_essentials && \
     comfy node install --exit-on-fail comfyui-gimm-vfi && \
     comfy node install --exit-on-fail ComfyUI-mxToolkit && \
@@ -19,6 +25,7 @@ RUN comfy node install --exit-on-fail comfyui_essentials && \
     comfy node install --exit-on-fail ComfyUI-Florence2 && \
     comfy node install --exit-on-fail comfyui-videohelpersuite
 
+# 3. Copy Handler
 COPY rp_handler.py /rp_handler.py
 COPY WAN2.2_LOOP.json /WAN2.2_LOOP.json
 
