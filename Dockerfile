@@ -1,23 +1,21 @@
 # clean base image containing only comfyui, comfy-cli and comfyui-manager
 FROM runpod/worker-comfyui:5.5.0-base
 
-# --- FIX START: Force Root & Repair DB ---
 USER root
-# Fix any potential broken installs in the base image before trying to update
-RUN dpkg --configure -a
-# --- FIX END ---
 
-# 1. Install System Dependencies & Speed Tools (aria2 is critical)
-# Added --no-install-recommends to keep it light and avoid conflicts
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# 1. Install System Dependencies (THE NUCLEAR FIX)
+# "|| true" prevents the build from crashing if a random repo is 404/offline.
+# Swapped "libgl1-mesa-glx" -> "libgl1" (Modern equivalent)
+RUN apt-get update || true && \
+    apt-get install -y --no-install-recommends \
     curl \
     git \
     aria2 \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Install Custom Nodes (COMBINED)
+# 2. Install Custom Nodes (Combined for speed)
 RUN comfy node install --exit-on-fail comfyui_essentials && \
     comfy node install --exit-on-fail comfyui-gimm-vfi && \
     comfy node install --exit-on-fail ComfyUI-mxToolkit && \
